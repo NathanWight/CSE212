@@ -15,7 +15,8 @@
         // Console.WriteLine(players);    // This can be un-commented out for debug help
         while (players.Length > 0)
             players.GetNextPerson();
-        // Defect(s) Found: 
+        // Defect(s) Found:The issue found with this test was improper loooping of the queue. 
+        // The error was placing the placing the person at the begining of the queue instead of the end.
 
         Console.WriteLine("---------");
 
@@ -30,7 +31,7 @@
         players.AddPerson("Sue", 3);
         for (int i = 0; i < 5; i++) {
             players.GetNextPerson();
-            // Console.WriteLine(players);
+         //Console.WriteLine(players);
         }
 
         players.AddPerson("George", 3);
@@ -38,7 +39,7 @@
         while (players.Length > 0)
             players.GetNextPerson();
 
-        // Defect(s) Found: 
+        // Defect(s) Found: None, unless they where resolved by something else I fixed before I got to it.
 
         Console.WriteLine("---------");
 
@@ -56,7 +57,7 @@
             players.GetNextPerson();
             // Console.WriteLine(players);
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: There was no code to include a person with infinte turns
 
         Console.WriteLine("---------");
 
@@ -73,7 +74,7 @@
             players.GetNextPerson();
             // Console.WriteLine(players);
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: There was no code to include a person with infinte turns
 
         Console.WriteLine("---------");
 
@@ -83,6 +84,6 @@
         Console.WriteLine("Test 5");
         players = new TakingTurnsQueue();
         players.GetNextPerson();
-        // Defect(s) Found:
+        // Defect(s) Found: None
     }
 }

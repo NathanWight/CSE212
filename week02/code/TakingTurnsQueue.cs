@@ -19,6 +19,10 @@ public class TakingTurnsQueue {
     /// <param name="turns">Number of turns remaining</param>
     public void AddPerson(string name, int turns) {
         var person = new Person(name, turns);
+        if (turns <= 0) // if a new person has turns 0 or less when created they will have infinite turns
+        {
+            person.Turns = int.MaxValue;
+        }
         _people.Enqueue(person);
     }
 
