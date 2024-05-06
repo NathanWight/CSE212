@@ -23,8 +23,23 @@
     }
 
     private static int CountDuplicates(int[] data)
-    {
-        // Add code here.
-        return 0;
+    // Creat new set to hash numbers to  
+    { var singleNumbers = new HashSet<int>();
+        var duplicates = 0;
+        // loop through each number in the array
+        foreach (var x in data)
+        {   // if the number is in the set we made add 1 to duplicates 
+            if (singleNumbers.Contains(x))
+                duplicates += 1;
+            
+            else 
+            // else add the number to the set.
+                singleNumbers.Add(x);
+                
+        }
+
+        return duplicates;
+        
+        
     }
 }
