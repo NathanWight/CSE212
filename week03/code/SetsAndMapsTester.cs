@@ -111,6 +111,15 @@ public static class SetsAndMapsTester {
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
         // Each pair of words should displayed on its own line.
+        HashSet<string> seen = new HashSet<string>();
+    foreach (string word in words) {
+        string reverse = new string(word.Reverse().ToArray());
+        if (seen.Contains(reverse)) {
+            Console.WriteLine($"{word} & {reverse}");
+        } else {
+            seen.Add(word);
+        }
+    }
     }
 
     /// <summary>
@@ -132,7 +141,15 @@ public static class SetsAndMapsTester {
         foreach (var line in File.ReadLines(filename)) {
             var fields = line.Split(",");
             // Todo Problem 2 - ADD YOUR CODE HERE
+            string degree = fields[3].Trim(); // Assuming degree is in the 4th column
+        if (degrees.ContainsKey(degree)) {
+            degrees[degree]++;
+        } else {
+            degrees[degree] = 1;
         }
+    }
+  
+        
 
         return degrees;
     }
@@ -158,7 +175,50 @@ public static class SetsAndMapsTester {
     /// #############
     private static bool IsAnagram(string word1, string word2) {
         // Todo Problem 3 - ADD YOUR CODE HERE
+          // Convert both words to lowercase
+    word1 = word1.ToLower();
+    word2 = word2.ToLower();
+
+    // Remove whitespaces from both words
+    word1 = string.Concat(word1.Where(c => !char.IsWhiteSpace(c)));
+    word2 = string.Concat(word2.Where(c => !char.IsWhiteSpace(c)));
+
+    // Check if the length of both words is the same
+    if (word1.Length != word2.Length) {
         return false;
+    }
+
+    // Create dictionaries to count occurrences of characters in both words
+    Dictionary<char, int> dict1 = new Dictionary<char, int>();
+    Dictionary<char, int> dict2 = new Dictionary<char, int>();
+
+    // Count occurrences of characters in word1
+    foreach (char c in word1) {
+        if (dict1.ContainsKey(c)) {
+            dict1[c]++;
+        } else {
+            dict1[c] = 1;
+        }
+    }
+
+    // Count occurrences of characters in word2
+    foreach (char c in word2) {
+        if (dict2.ContainsKey(c)) {
+            dict2[c]++;
+        } else {
+            dict2[c] = 1;
+        }
+    }
+
+    // Compare the dictionaries
+    foreach (var kvp in dict1) {
+        if (!dict2.ContainsKey(kvp.Key) || dict2[kvp.Key] != kvp.Value) {
+            return false;
+        }
+    }
+
+    // If all characters and their counts match, the words are anagrams
+    return true;
     }
 
     /// <summary>
@@ -231,9 +291,14 @@ public static class SetsAndMapsTester {
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
+        // Print out each earthquake location and magnitude
+foreach (var feature in featureCollection.Features) {
+    Console.WriteLine($"{feature.Properties.Place} - Mag {feature.Properties.Mag}");
+
         // TODO:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to print out each place a earthquake has happened today and its magitude.
+    }
     }
 }
