@@ -27,7 +27,16 @@ public class LinkedList : IEnumerable<int> {
     /// Insert a new node at the back (i.e. the tail) of the linked list.
     /// </summary>
     public void InsertTail(int value) {
-        // TODO Problem 1
+         Node newNode = new Node(value);
+    
+     if (_tail == null) {
+        _head = newNode;
+        _tail = newNode;
+    } else {
+        _tail.Next = newNode;
+        newNode.Prev = _tail;
+        _tail = newNode;
+    }
     }
 
 
@@ -55,7 +64,20 @@ public class LinkedList : IEnumerable<int> {
     /// Remove the last node (i.e. the tail) of the linked list.
     /// </summary>
     public void RemoveTail() {
-        // TODO Problem 2
+         if (_tail != null) {
+        if (_head == _tail) {
+            _head = null;
+            _tail = null;
+        } else {
+            _tail = _tail.Prev;
+            if (_tail != null) {
+                _tail.Next = null;
+            } else {
+                // If _tail is null after updating, set _head to null as well
+                _head = null;
+            }
+        }
+    }
     }
 
     /// <summary>
@@ -93,14 +115,69 @@ public class LinkedList : IEnumerable<int> {
     /// Remove the first node that contains 'value'.
     /// </summary>
     public void Remove(int value) {
-        // TODO Problem 3
+         if (_head == null) {
+        return; // List is empty, nothing to remove
+    }
+    
+    Node current = _head;
+    while (current != null) {
+        if (current.Data == value) {
+            if (current == _head) {
+                _head = _head.Next;
+                if (_head != null) {
+                    _head.Prev = null;
+                } else {
+                    _tail = null; // If _head becomes null, set _tail to null as well
+                }
+            } else if (current == _tail) {
+                _tail = _tail.Prev;
+                if (_tail != null) {
+                    _tail.Next = null;
+                } else {
+                    _head = null; // If _tail becomes null, set _head to null as well
+                }
+            } else {
+                // Adjust pointers to skip current node
+                if (current.Prev != null) {
+                    current.Prev.Next = current.Next;
+                }
+                if (current.Next != null) {
+                    current.Next.Prev = current.Prev;
+                }
+            }
+            // Once the node is removed, exit the method
+            return;
+        }
+        if (current != null && current.Next != null) {
+            current = current.Next;
+        } else {
+            break; // Exit loop if current or current.Next is null
+        }
+    }
     }
 
     /// <summary>
     /// Search for all instances of 'oldValue' and replace the value to 'newValue'.
     /// </summary>
     public void Replace(int oldValue, int newValue) {
-        // TODO Problem 4
+         if (_head == null) {
+        return; // List is empty, nothing to replace
+    }
+
+    Node current = _head;
+    while (current != null) {
+        if (current.Data == oldValue) {
+            current.Data = newValue; // Replace the value
+        }
+        
+         if (current != null && current.Next != null) {
+            current = current.Next;
+        } else {
+            break; // Exit loop if current or current.Next is null
+        }
+    }
+
+   
     }
 
     /// <summary>
@@ -126,8 +203,19 @@ public class LinkedList : IEnumerable<int> {
     /// Iterate backward through the Linked List
     /// </summary>
     public IEnumerable Reverse() {
-        // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+         if (_tail == null) {
+        yield break; // If the list is empty, exit the method
+    }
+
+    Node current = _tail;
+    while (current != null) {
+        yield return current.Data;
+        if (current.Prev != null) {
+            current = current.Prev;
+        } else {
+            break; // Exit the loop if current.Prev is null
+        }
+    }
     }
 
     public override string ToString() {
