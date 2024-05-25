@@ -146,8 +146,10 @@ public static class RecursionTester {
     /// n &lt;= 0, just return 0.   A loop should not be used.
     /// </summary>
     public static int SumSquaresRecursive(int n) {
-        // TODO Start Problem 1
+        if (n <= 0) {
         return 0;
+    }
+    return n * n + SumSquaresRecursive(n - 1);
     }
 
     /// <summary>
@@ -170,7 +172,14 @@ public static class RecursionTester {
     /// and the length of the letters list).
     /// </summary>
     public static void PermutationsChoose(string letters, int size, string word = "") {
-        // TODO Start Problem 2
+       if (size == 0) {
+            Console.WriteLine(word);
+            return;
+        }
+        for (int i = 0; i < letters.Length; i++) {
+            PermutationsChoose(letters.Substring(0, i) + letters.Substring(i + 1), size - 1, word + letters[i]);
+        }
+    
     }
 
     /// <summary>
@@ -248,7 +257,21 @@ public static class RecursionTester {
     /// some of the string functions like IndexOf and [..X] / [X..] to be useful in solving this problem.
     /// </summary>
     public static void WildcardBinary(string pattern) {
-        // TODO Start Problem 4
+          int wildcardIndex = pattern.IndexOf('*');
+
+        // If no wildcard found, print the pattern as it is
+        if (wildcardIndex == -1) {
+            Console.WriteLine(pattern);
+            return;
+        }
+
+        // Replace the wildcard with '0' and recurse
+        string patternWithZero = pattern.Substring(0, wildcardIndex) + '0' + pattern.Substring(wildcardIndex + 1);
+        WildcardBinary(patternWithZero);
+
+        // Replace the wildcard with '1' and recurse
+        string patternWithOne = pattern.Substring(0, wildcardIndex) + '1' + pattern.Substring(wildcardIndex + 1);
+        WildcardBinary(patternWithOne);
     }
 
     /// <summary>
@@ -263,9 +286,30 @@ public static class RecursionTester {
 
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
-        // TODO Start Problem 5
-        // ADD CODE HERE
+        currPath.Add((x, y));
 
-        // Console.WriteLine(currPath.AsString()); // Use this to print out your path when you find the solution
+        // Check if we've reached the end of the maze
+        if (maze.IsEnd(x, y)) {
+            Console.WriteLine("Solution found:");
+           Console.WriteLine(currPath.AsString()); // Use this to print out your path when you find the solution
+            return;
+        }
+
+        // Try moving in all possible directions
+        foreach (var (dx, dy) in new List<(int, int)> { (1, 0), (-1, 0), (0, 1), (0, -1) }) {
+            int newX = x + dx;
+            int newY = y + dy;
+
+            // Check if the new position is valid
+            if (maze.IsValidMove(currPath, newX, newY)) {
+                SolveMaze(maze, newX, newY, currPath);
+            }
+        }
+
+        // Backtrack: Remove the current position from the path
+        currPath.RemoveAt(currPath.Count - 1);
+       
     }
-}
+
+        
+    }

@@ -1,2 +1,3 @@
-﻿Console.WriteLine("\n======================\nProve 5 - Recursion\n======================");
+﻿
+Console.WriteLine("\n======================\nProve 5 - Recursion\n======================");
 RecursionTester.Run();
